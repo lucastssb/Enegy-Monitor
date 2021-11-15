@@ -135,33 +135,37 @@ void my_touchpad_read( lv_indev_drv_t * indev_driver, lv_indev_data_t * data )
    }
 }
 
-static void btn_event_cb(lv_event_t * e)
+void top_bar(void)
 {
-    lv_event_code_t code = lv_event_get_code(e);
-    lv_obj_t * btn = lv_event_get_target(e);
-    if(code == LV_EVENT_CLICKED) {
-        static uint8_t cnt = 0;
-        cnt++;
+    
 
-        /*Get the first child of the button which is the label and change its text*/
-        lv_obj_t * label = lv_obj_get_child(btn, 0);
-        lv_label_set_text_fmt(label, "Button: %d", cnt);
-    }
+    lv_obj_t * top_bar = lv_obj_create(lv_scr_act());
+    lv_obj_set_size(top_bar, 470, 60);
+    lv_obj_align(top_bar, LV_ALIGN_TOP_MID, 0, 5);
+
+    lv_obj_t * label_tension = lv_label_create(top_bar);
+    lv_label_set_text_fmt(label_tension, "Item: %u", 220);
+    lv_obj_align(label_tension, LV_ALIGN_LEFT_MID, 0, 0);
+
+    lv_obj_t * label_current = lv_label_create(top_bar);
+    lv_label_set_text_fmt(label_current, "Item: %u", 220);
+    lv_obj_align(label_current, LV_ALIGN_CENTER, 0, 0);
+
+    lv_obj_t * label_signal = lv_label_create(top_bar);
+    lv_label_set_text_fmt(label_signal, "Item: %u", 220);
+    lv_obj_align(label_signal, LV_ALIGN_RIGHT_MID, 0, 0);
 }
 
-/**
- * Create a button with a label and react on click event.
- */
-void lv_example_get_started_1(void)
+void energy_consumption_label(void)
 {
-    lv_obj_t * btn = lv_btn_create(lv_scr_act());     /*Add a button the current screen*/
-    lv_obj_set_size(btn, 120, 50);                          /*Set its size*/
-    lv_obj_align(btn, LV_ALIGN_CENTER, 0,0);
-    lv_obj_add_event_cb(btn, btn_event_cb, LV_EVENT_ALL, NULL);           /*Assign a callback to the button*/
-
-    lv_obj_t * label = lv_label_create(btn);          /*Add a label to the button*/
-    lv_label_set_text(label, "Button");                     /*Set the labels text*/
-    lv_obj_center(label);
+    lv_obj_t * label = lv_label_create(lv_scr_act());
+    lv_label_set_long_mode(label, LV_LABEL_LONG_WRAP);  /*Break the long lines*/
+    lv_label_set_recolor(label, true);                      /*Enable re-coloring by commands in the text*/
+    lv_label_set_text_fmt(label, "%d KWh", 123456789);
+    lv_obj_set_style_text_font(label, &lv_font_montserrat_48, 0);
+    lv_obj_set_width(label, 300); /*Set smaller width to make the lines wrap*/
+    lv_obj_set_style_text_align(label, LV_TEXT_ALIGN_CENTER, 0);
+    lv_obj_align(label, LV_ALIGN_CENTER, 0, 0);
 }
 
 void setup()
@@ -195,7 +199,8 @@ void setup()
    indev_drv.read_cb = my_touchpad_read;
    lv_indev_drv_register(&indev_drv);
 
-   lv_example_get_started_1();
+  energy_consumption_label();
+  top_bar();
 }
 
 void loop()
