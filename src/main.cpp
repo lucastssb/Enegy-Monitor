@@ -135,25 +135,73 @@ void my_touchpad_read( lv_indev_drv_t * indev_driver, lv_indev_data_t * data )
    }
 }
 
+void lv_example_img_1(void)
+{
+    LV_IMG_DECLARE(current_icon);
+    lv_obj_t * img1 = lv_img_create(lv_scr_act());
+    lv_img_set_src(img1, &current_icon);
+    lv_obj_align(img1, LV_ALIGN_CENTER, 0, -20);
+    lv_obj_set_size(img1, 24, 24);
+
+    lv_obj_t * img2 = lv_img_create(lv_scr_act());
+    lv_img_set_src(img2, LV_SYMBOL_OK "Accept");
+    lv_obj_align_to(img2, img1, LV_ALIGN_OUT_BOTTOM_MID, 0, 20);
+}
+
 void top_bar(void)
 {
-    
-
     lv_obj_t * top_bar = lv_obj_create(lv_scr_act());
-    lv_obj_set_size(top_bar, 470, 60);
+    lv_obj_set_size(top_bar, 470, 65);
     lv_obj_align(top_bar, LV_ALIGN_TOP_MID, 0, 5);
 
-    lv_obj_t * label_tension = lv_label_create(top_bar);
-    lv_label_set_text_fmt(label_tension, "Item: %u", 220);
-    lv_obj_align(label_tension, LV_ALIGN_LEFT_MID, 0, 0);
-
-    lv_obj_t * label_current = lv_label_create(top_bar);
-    lv_label_set_text_fmt(label_current, "Item: %u", 220);
+    // Current 
+    lv_obj_t * current = lv_obj_create(top_bar);
+    lv_obj_remove_style_all(current);
+    lv_obj_set_size(current, 110, 25);
+    lv_obj_align(current, LV_ALIGN_LEFT_MID, 0, 0);
+  
+    lv_obj_t * label_current = lv_label_create(current);
+    lv_label_set_text_fmt(label_current, "%u A", 0.25);
     lv_obj_align(label_current, LV_ALIGN_CENTER, 0, 0);
 
-    lv_obj_t * label_signal = lv_label_create(top_bar);
-    lv_label_set_text_fmt(label_signal, "Item: %u", 220);
+    LV_IMG_DECLARE(current_icon);
+    lv_obj_t * img_current = lv_img_create(current);
+    lv_img_set_src(img_current, &current_icon);
+    lv_obj_align(img_current, LV_ALIGN_LEFT_MID, 0, 0);
+    lv_obj_set_size(img_current, 24, 24);
+
+
+    // Voltage
+    lv_obj_t * voltage = lv_obj_create(top_bar);
+    lv_obj_remove_style_all(voltage);
+    lv_obj_set_size(voltage, 110, 25);
+    lv_obj_align(voltage, LV_ALIGN_CENTER, 0, 0);
+
+    lv_obj_t * label_voltage = lv_label_create(voltage);
+    lv_label_set_text_fmt(label_voltage, "%u V", 220);
+    lv_obj_align(label_voltage, LV_ALIGN_CENTER, 0, 0);
+
+    LV_IMG_DECLARE(voltage_icon);
+    lv_obj_t * img_voltage = lv_img_create(voltage);
+    lv_img_set_src(img_voltage, &voltage_icon);
+    lv_obj_align(img_voltage, LV_ALIGN_LEFT_MID, 0, 0);
+    lv_obj_set_size(img_voltage, 24, 24);
+
+    // Signal
+    lv_obj_t * signal = lv_obj_create(top_bar);
+    lv_obj_remove_style_all(signal);
+    lv_obj_set_size(signal, 110, 25);
+    lv_obj_align(signal, LV_ALIGN_RIGHT_MID, 0, 0);
+
+    lv_obj_t * label_signal = lv_label_create(signal);
+    lv_label_set_text_fmt(label_signal, "%u dBm", 69);
     lv_obj_align(label_signal, LV_ALIGN_RIGHT_MID, 0, 0);
+
+    LV_IMG_DECLARE(signal_icon);
+    lv_obj_t * img_signal = lv_img_create(signal);
+    lv_img_set_src(img_signal, &signal_icon);
+    lv_obj_align(img_signal, LV_ALIGN_CENTER, -25, 0);
+    lv_obj_set_size(img_signal, 24, 24);
 }
 
 void energy_consumption_label(void)
